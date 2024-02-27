@@ -5,7 +5,6 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
 import frc.robot.commands.TankDriveCommand;
 import frc.robot.commands.ArmLiftCommand;
 import frc.robot.commands.ScoringCommand;
@@ -43,12 +42,15 @@ public class RobotContainer {
     m_drive.setDefaultCommand(new TankDriveCommand(() -> m_driverController.getLeftY(), ()-> m_driverController.getRightY(), m_drive));
     m_arm.setDefaultCommand(new ArmLiftCommand(() -> m_driverController.getLeftTriggerAxis(), ()-> m_driverController.getRightTriggerAxis(), m_arm));
 
+
+    //Intake
     m_driverController
       .leftBumper()
         .whileTrue(
           m_score
         );
   
+    //Throw    
     m_driverController
     .rightBumper()
       .whileTrue(
