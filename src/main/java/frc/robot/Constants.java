@@ -28,13 +28,22 @@ public final class Constants {
     public static final boolean kRightLeadMotorInverted = false;
     public static final boolean kRightFollowMotorInverted = false;
 
-    public static final double kDriveSpeedMultiplier = 0.7;
+    //Base value is 0.7
+    public static double kDriveSpeedMultiplier = 0.7;
   }
   
+  //Test
   public static class ArmConstants {
     public static final int kArmMotorID = 14;
     public static final boolean kArmMotorInverted = false;
-    public static final double kArmSpeedMultiplier = 0.2;
+    public static final double kArmSpeed = 0.08;
+    public static final double kP = 0.007;
+    public static final double kI = 0;
+    public static final double kD = 0;
+
+    public static double kASetpoint = 100;
+    public static double kBSetpoint = 190;
+
   }
   
   public static class ScoringConstants {

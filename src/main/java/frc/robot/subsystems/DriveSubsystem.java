@@ -6,18 +6,14 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
 public class DriveSubsystem extends SubsystemBase {
 
   private DifferentialDrive m_drive;
-
-  private RelativeEncoder m_encoder;
 
   private CANSparkMax m_leftLeadMotor;
   private CANSparkMax m_leftFollowMotor;
@@ -48,13 +44,11 @@ public class DriveSubsystem extends SubsystemBase {
   /* This method is used in TankDriveCommand. */
   public void drive(double left, double right) {
 
-    left = left * Math.abs(left) * DriveConstants.kDriveSpeedMultiplier;
-    right = right * Math.abs(right) * DriveConstants.kDriveSpeedMultiplier;
+    left = left * DriveConstants.kDriveSpeedMultiplier;
+    right = right * DriveConstants.kDriveSpeedMultiplier;
 
     m_drive.tankDrive(left, right);
-    m_encoder = m_rightLeadMotor.getEncoder();
-    SmartDashboard.putNumber("Arm Encoder Position", m_encoder.getPosition());
-    SmartDashboard.putNumber("Arm Encoder Velocity", m_encoder.getVelocity());
+  
   }
 
   @Override

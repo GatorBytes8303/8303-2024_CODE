@@ -4,40 +4,37 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+
 import frc.robot.Constants.ArmConstants;
-import frc.robot.subsystems.ArmSubsystem;
 
-public class ArmLiftCommand extends Command {
+public class ASetPointTrimCommand extends Command {
 
-  private final ArmSubsystem m_arm;
-  private final double m_direction;
+  private final double m_trim;
 
-  /** Creates a new ArmLiftCommand. */
-  public ArmLiftCommand(int direction, ArmSubsystem arm) {
-
-    m_arm = arm;
-    m_direction = direction;
+  /** Creates a new ASetPointTrimCommand. */
+  public ASetPointTrimCommand(double trim) {
+    m_trim = trim;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_arm);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    ArmConstants.kASetpoint += m_trim;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_arm.armLift(m_direction * ArmConstants.kArmSpeed);
+    SmartDashboard.putNumber("A Setpoint", ArmConstants.kASetpoint);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    m_arm.armLift(0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
