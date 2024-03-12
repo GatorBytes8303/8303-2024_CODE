@@ -53,6 +53,10 @@ public class ArmSubsystem extends SubsystemBase {
     return Commands.runOnce(() -> setAngleB());
   }
 
+  public Command setAngleCommandC(){
+    return Commands.runOnce(() -> setAngleC());
+  }
+
   /* What runs when the subsystem is not being used. aka the default setting. */
   public void armLift(double speed){
 
@@ -67,6 +71,10 @@ public class ArmSubsystem extends SubsystemBase {
 
   private void setAngleB() {
     m_controller.setReference(ArmConstants.kBSetpoint, ControlType.kPosition);
+  }
+
+  private void setAngleC() {
+    m_controller.setReference(ArmConstants.kCSetpoint, ControlType.kPosition);
   }
 
   @Override

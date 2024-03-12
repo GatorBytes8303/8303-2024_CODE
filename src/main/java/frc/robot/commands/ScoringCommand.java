@@ -28,7 +28,7 @@ public class ScoringCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_scorer.setScorer(1);
+    m_scorer.setScorer(0.27);
   }
 
   // Called once the command ends or is interrupted.

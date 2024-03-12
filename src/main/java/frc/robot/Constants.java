@@ -29,7 +29,7 @@ public final class Constants {
     public static final boolean kRightFollowMotorInverted = false;
 
     //Base value is 0.7
-    public static double kDriveSpeedMultiplier = 0.7;
+    public static double kDriveSpeedMultiplier = 1;
   }
   
   //Test
@@ -41,8 +41,9 @@ public final class Constants {
     public static final double kI = 0;
     public static final double kD = 0;
 
-    public static double kASetpoint = 100;
+    public static double kASetpoint = 95.5;
     public static double kBSetpoint = 190;
+    public static double kCSetpoint = 20;
 
   }
   

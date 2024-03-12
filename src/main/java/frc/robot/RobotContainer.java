@@ -132,7 +132,11 @@ public class RobotContainer {
       .y()
         .whileTrue(
           m_score
-      );
+        )
+        .onFalse(
+          m_arm.setAngleCommandC()
+        )
+      ;
 
     // Configure the trigger bindings
     configureBindings();
