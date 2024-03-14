@@ -4,39 +4,31 @@
 
 package frc.robot.commands;
 
+import frc.robot.Constants.DriveConstants;
+
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.ArmConstants;
-import frc.robot.subsystems.ArmSubsystem;
 
-public class ArmLiftCommand extends Command {
+public class BrakeCommand extends Command {
+  /** Creates a new BrakeCommand. */
 
-  private final ArmSubsystem m_arm;
-  private final double m_direction;
-
-  /** Creates a new ArmLiftCommand. */
-  public ArmLiftCommand(int direction, ArmSubsystem arm) {
-
-    m_arm = arm;
-    m_direction = direction;
-
+  public BrakeCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_arm);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    DriveConstants.kDriveSpeedMultiplier = 0.3;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    m_arm.armLift(m_direction * ArmConstants.kArmSpeed);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_arm.armLift(0);
+    DriveConstants.kDriveSpeedMultiplier = 1;
   }
 
   // Returns true when the command should end.

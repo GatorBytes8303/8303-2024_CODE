@@ -7,6 +7,7 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.MiscConstants;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class TankDriveCommand extends Command {
@@ -33,7 +34,9 @@ public class TankDriveCommand extends Command {
   @Override
   public void execute() {
     /*Calls the drive function defined in DriveSubsystem. */
-    m_drivetrain.drive(m_left.getAsDouble(), m_right.getAsDouble());
+    if(MiscConstants.kRobotIsTeleoperated){
+      m_drivetrain.drive(m_left.getAsDouble(), m_right.getAsDouble());
+    }
   }
 
   // Called once the command ends or is interrupted.

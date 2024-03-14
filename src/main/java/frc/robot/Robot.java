@@ -5,8 +5,12 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.MiscConstants;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -19,15 +23,23 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  private UsbCamera frontCamera;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
   @Override
   public void robotInit() {
+    // Starts camera capture and sets config
+    frontCamera = CameraServer.startAutomaticCapture(0);
+    frontCamera.setResolution(320, 240);
+    frontCamera.setExposureAuto();
+    frontCamera.setFPS(15);
+    frontCamera.setBrightness(43);
+    
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
+      m_robotContainer = new RobotContainer();
   }
 
   /**
@@ -54,22 +66,36 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {}
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
+  double StartTime;
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    MiscConstants.kRobotIsTeleoperated = false;
+    StartTime = Timer.getFPGATimestamp();
+     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
+     //schedule the autonomous command (example)
+     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
-    }
+     }
   }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    
+   double Time = Timer.getFPGATimestamp();
+    if (Time - StartTime < 2){
+      m_robotContainer.m_drive.drive(-0.5, -0.5);
+    } else {
+      m_robotContainer.m_drive.drive(0,0);
+    }
+  }
 
   @Override
   public void teleopInit() {
+
+    MiscConstants.kRobotIsTeleoperated = true;
+
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove

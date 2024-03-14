@@ -4,18 +4,27 @@
 
 package frc.robot;
 
+import frc.robot.Constants.MiscConstants;
+//Constants
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.TankDriveCommand;
-import frc.robot.commands.ArmLiftCommand;
-import frc.robot.commands.ScoringCommand;
-import frc.robot.commands.GrabbingCommand;
+
+//Misc
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+
+//Subsystems
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ScoringSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+
+//Commands
+import frc.robot.commands.TankDriveCommand;
+import frc.robot.commands.BrakeCommand;
+import frc.robot.commands.ArmLiftCommand;
+import frc.robot.commands.ScoringCommand;
+import frc.robot.commands.GrabbingCommand;
+import frc.robot.commands.ASetPointTrimCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -24,39 +33,109 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final DriveSubsystem m_drive = new DriveSubsystem();
+  // The robot's subsystems are defined here...
+  public final DriveSubsystem m_drive = new DriveSubsystem();
   private final ArmSubsystem m_arm = new ArmSubsystem();
   private final ScoringSubsystem m_scorer = new ScoringSubsystem();
+
+  // The robot's commands are defined here...
   private final ScoringCommand m_score = new ScoringCommand(m_scorer);
-
   private final GrabbingCommand m_grab = new GrabbingCommand(m_scorer);
-
+  private final ArmLiftCommand m_armLift = new ArmLiftCommand(1, m_arm);
+  private final ArmLiftCommand m_armUnlift = new ArmLiftCommand(-1, m_arm);
+  private final BrakeCommand m_brake = new BrakeCommand();
+  private final ASetPointTrimCommand m_ATrimUp = new ASetPointTrimCommand(0.5);
+  private final ASetPointTrimCommand m_ATrimDown = new ASetPointTrimCommand(-0.5);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
-
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    /** Arm & Drivetrain commands. */
-    m_drive.setDefaultCommand(new TankDriveCommand(() -> m_driverController.getLeftY(), ()-> m_driverController.getRightY(), m_drive));
-    m_arm.setDefaultCommand(new ArmLiftCommand(() -> m_driverController.getLeftTriggerAxis(), ()-> m_driverController.getRightTriggerAxis(), m_arm));
 
+    //-------- D R I V E T R A I N   C O M M A N D S -------
 
-    //Intake
+    //Drive
+    if(MiscConstants.kRobotIsTeleoperated){
+    m_drive.setDefaultCommand(
+      new TankDriveCommand(
+        () -> m_driverController.getLeftY(),
+        () -> m_driverController.getRightY(),
+        m_drive)
+      );
+    }
+    //Brake
     m_driverController
       .leftBumper()
         .whileTrue(
-          m_score
+          m_brake
+        );
+    
+    // ------------- A R M   C O M M A N D S ---------
+
+    //Arm Control
+    m_driverController
+      .leftTrigger()
+        .whileTrue(
+          m_armLift
+        );
+  
+    //Arm Control
+    m_driverController
+      .rightTrigger()
+        .whileTrue(
+          m_armUnlift
+      );
+
+    //Arm PID A-Setpoint
+    m_driverController
+      .a()
+        .onTrue(
+          m_arm.setAngleCommandA()
+        );
+
+    //Arm PID B-Setpoint
+    m_driverController
+      .b()
+        .onTrue(
+          m_arm.setAngleCommandB()
+        );
+
+    //A-Setpoint trim UP
+    m_driverController
+      .start()
+        .whileTrue(
+          m_ATrimUp
+        )
+          .onFalse(
+            m_arm.setAngleCommandA()
+          );
+
+    //B-Setpoint trim UP
+    m_driverController
+      .back()
+        .whileTrue(
+          m_ATrimDown
+        )
+          .onFalse(
+            m_arm.setAngleCommandA()
+          );
+
+    // ---------- S C O R I N G   C O M M A N D S ------
+
+    //Intake
+    m_driverController
+      .rightBumper()
+        .whileTrue(
+          m_grab
         );
   
     //Throw    
     m_driverController
-    .rightBumper()
-      .whileTrue(
-        m_grab
+      .y()
+        .whileTrue(
+          m_score
       );
-  
+
     // Configure the trigger bindings
     configureBindings();
   }
@@ -72,8 +151,6 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    m_driverController.y().onTrue(new PrintCommand("Controller Is Working"));
-
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
