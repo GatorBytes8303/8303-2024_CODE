@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import frc.robot.Constants.MiscConstants;
 //Constants
 import frc.robot.Constants.OperatorConstants;
 
@@ -55,14 +54,13 @@ public class RobotContainer {
     //-------- D R I V E T R A I N   C O M M A N D S -------
 
     //Drive
-    if(MiscConstants.kRobotIsTeleoperated){
     m_drive.setDefaultCommand(
       new TankDriveCommand(
         () -> m_driverController.getLeftY(),
         () -> m_driverController.getRightY(),
         m_drive)
-      );
-    }
+    );
+      
     //Brake
     m_driverController
       .leftBumper()
