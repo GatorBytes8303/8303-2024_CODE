@@ -34,6 +34,7 @@ public class Robot extends TimedRobot {
     frontCamera = CameraServer.startAutomaticCapture(0);
     frontCamera.setResolution(320, 240);
     frontCamera.setExposureAuto();
+    frontCamera.setWhiteBalanceAuto();
     frontCamera.setFPS(15);
     frontCamera.setBrightness(43);
     
