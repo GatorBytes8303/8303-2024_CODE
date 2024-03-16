@@ -38,7 +38,7 @@ public final class Constants {
     public static double kDriveSpeedMultiplier = 1;
   }
   
-  //Test
+  //arm constants
   public static class ArmConstants {
     public static final int kArmMotorID = 14;
     public static final boolean kArmMotorInverted = false;
@@ -53,9 +53,23 @@ public final class Constants {
 
   }
   
+  //grabby
   public static class ScoringConstants {
     public static final int kScoringMotorID = 15;
     public static final boolean kScoringMotorInverted = true;
+  }
+
+  public static class ClimbingConstants {
+    public static final int kClimberLeadMotorID = 16;
+    public static final int kClimberFollowMotorID = 17;
+    public static final boolean kClimberLeadMotorInverted = false;
+
+    public static final double kP = 0;
+    public static final double kI = 0;
+    public static final double kD = 0;
+
+    public static double kASetpoint = 1;
+
   }
 
 }
