@@ -7,8 +7,12 @@ package frc.robot;
 //Constants
 import frc.robot.Constants.OperatorConstants;
 
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
+
 //Misc
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -21,7 +25,6 @@ import frc.robot.subsystems.ScoringSubsystem;
 //Commands
 import frc.robot.commands.TankDriveCommand;
 import frc.robot.commands.BrakeCommand;
-import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ArmLiftCommand;
 import frc.robot.commands.ScoringCommand;
 import frc.robot.commands.GrabbingCommand;
@@ -38,7 +41,6 @@ public class RobotContainer {
   public final DriveSubsystem m_drive = new DriveSubsystem();
   private final ArmSubsystem m_arm = new ArmSubsystem();
   private final ScoringSubsystem m_scorer = new ScoringSubsystem();
-  private final ClimbingSubsystem m_climber = new ClimbingSubsystem();
 
   // The robot's commands are defined here...
   private final ScoringCommand m_score = new ScoringCommand(m_scorer);
@@ -48,9 +50,8 @@ public class RobotContainer {
   private final BrakeCommand m_brake = new BrakeCommand();
   private final ASetPointTrimCommand m_ATrimUp = new ASetPointTrimCommand(0.5);
   private final ASetPointTrimCommand m_ATrimDown = new ASetPointTrimCommand(-0.5);
-  private final ClimbCommand m_climbUp = new ClimbCommand(-0.3, m_climber);
-  private final ClimbCommand m_climbDown = new ClimbCommand(0.3, m_climber);
-
+  private CANSparkMax leftClimb;
+  private CANSparkMax rightClimb;
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
@@ -140,21 +141,19 @@ public class RobotContainer {
           m_score
       );
     
+    //Sotabots Climber code
+    CANSparkMax leftClimb = new CANSparkMax(16, MotorType.kBrushed);
+    CANSparkMax rightClimb = new CANSparkMax(17,MotorType.kBrushed);
 
-    //--------- C L I M B I N G   C O M M A N D ( S ) ----------------
+    ClimbingSubsystem m_Climb = new ClimbingSubsystem(leftClimb, rightClimb);
+                   
+    m_driverController.rightStick()
+    .whileTrue(Commands.runOnce(() -> m_Climb.runMotor(1,-1), m_Climb))
+    .onFalse(Commands.runOnce(() -> m_Climb.runMotor(0,0), m_Climb));
 
-    m_driverController
-      .x()
-        .whileTrue(
-          m_climbUp
-      );
-
-      m_driverController
-      .leftStick()
-        .whileTrue(
-          m_climbDown
-      );
-
+    m_driverController.leftStick()
+    .whileTrue(Commands.runOnce(() -> m_Climb.runMotor(-1,1), m_Climb, m_Climb))
+    .onFalse((Commands.runOnce(() -> m_Climb.runMotor(0,0), m_Climb)));
     // Configure the trigger bindings
     configureBindings();
   }
