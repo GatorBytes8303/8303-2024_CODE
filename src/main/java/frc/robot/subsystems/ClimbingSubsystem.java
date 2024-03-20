@@ -14,6 +14,7 @@ public class ClimbingSubsystem extends SubsystemBase {
 private CANSparkMax leftClimb;
 private CANSparkMax rightClimb;
 
+
   /** Creates a new ClimbingSubsystem. */
   public ClimbingSubsystem(CANSparkMax leftClimb, CANSparkMax rightClimb) {
     this.leftClimb = leftClimb;
