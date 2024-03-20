@@ -5,6 +5,9 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -13,15 +16,23 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class ClimbingSubsystem extends SubsystemBase {
 private CANSparkMax leftClimb;
 private CANSparkMax rightClimb;
+private CANSparkMax leftClimb;
+private CANSparkMax rightClimb;
 
 
   /** Creates a new ClimbingSubsystem. */
   public ClimbingSubsystem(CANSparkMax leftClimb, CANSparkMax rightClimb) {
     this.leftClimb = leftClimb;
     this.rightClimb = rightClimb;
+  public ClimbingSubsystem(CANSparkMax leftClimb, CANSparkMax rightClimb) {
+    this.leftClimb = leftClimb;
+    this.rightClimb = rightClimb;
 
   }
 
+  public void runMotor(double rightSpeed, double leftSpeed) {
+    rightClimb.set(rightSpeed*1);
+    leftClimb.set(leftSpeed*1);
   public void runMotor(double rightSpeed, double leftSpeed) {
     rightClimb.set(rightSpeed*1);
     leftClimb.set(leftSpeed*1);
