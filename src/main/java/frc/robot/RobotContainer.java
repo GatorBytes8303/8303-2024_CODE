@@ -7,14 +7,19 @@ package frc.robot;
 //Constants
 import frc.robot.Constants.OperatorConstants;
 
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
+
 //Misc
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 //Subsystems
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ClimbingSubsystem;
 import frc.robot.subsystems.ScoringSubsystem;
 
 //Commands
@@ -45,6 +50,8 @@ public class RobotContainer {
   private final BrakeCommand m_brake = new BrakeCommand();
   private final ASetPointTrimCommand m_ATrimUp = new ASetPointTrimCommand(0.5);
   private final ASetPointTrimCommand m_ATrimDown = new ASetPointTrimCommand(-0.5);
+  private CANSparkMax leftClimb;
+  private CANSparkMax rightClimb;
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
@@ -133,7 +140,20 @@ public class RobotContainer {
         .whileTrue(
           m_score
       );
+    
+    //Sotabots Climber code
+    CANSparkMax leftClimb = new CANSparkMax(16, MotorType.kBrushed);
+    CANSparkMax rightClimb = new CANSparkMax(17,MotorType.kBrushed);
 
+    ClimbingSubsystem m_Climb = new ClimbingSubsystem(leftClimb, rightClimb);
+                   
+    m_driverController.rightStick()
+    .whileTrue(Commands.runOnce(() -> m_Climb.runMotor(1,-1), m_Climb))
+    .onFalse(Commands.runOnce(() -> m_Climb.runMotor(0,0), m_Climb));
+
+    m_driverController.leftStick()
+    .whileTrue(Commands.runOnce(() -> m_Climb.runMotor(-1,1), m_Climb, m_Climb))
+    .onFalse((Commands.runOnce(() -> m_Climb.runMotor(0,0), m_Climb)));
     // Configure the trigger bindings
     configureBindings();
   }

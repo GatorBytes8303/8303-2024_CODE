@@ -4,30 +4,27 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.motorcontrol.Victor;
+import com.revrobotics.CANSparkMax;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 //import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 public class ClimbingSubsystem extends SubsystemBase {
-
-
-  private final Victor m_motor;
+private CANSparkMax leftClimb;
+private CANSparkMax rightClimb;
 
 
   /** Creates a new ClimbingSubsystem. */
-  public ClimbingSubsystem() {
-
-    m_motor = new Victor(0);
-
-
+  public ClimbingSubsystem(CANSparkMax leftClimb, CANSparkMax rightClimb) {
+    this.leftClimb = leftClimb;
+    this.rightClimb = rightClimb;
 
   }
 
-  public void runMotor() {
-
-    
-
+  public void runMotor(double rightSpeed, double leftSpeed) {
+    rightClimb.set(rightSpeed*1);
+    leftClimb.set(leftSpeed*1);
   }
 
   @Override

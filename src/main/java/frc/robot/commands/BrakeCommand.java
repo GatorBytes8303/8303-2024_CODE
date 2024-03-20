@@ -18,7 +18,7 @@ public class BrakeCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    DriveConstants.kDriveSpeedMultiplier = 0.3;
+    DriveConstants.kDriveSpeedMultiplier = 0.35;
   }
 
   // Called every time the scheduler runs while the command is scheduled.

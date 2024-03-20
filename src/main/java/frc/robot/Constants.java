@@ -43,11 +43,11 @@ public final class Constants {
     public static final int kArmMotorID = 14;
     public static final boolean kArmMotorInverted = false;
     public static final double kArmSpeed = 0.08;
-    public static final double kP = 0.007;
+    public static final double kP = 0.025;
     public static final double kI = 0;
     public static final double kD = 0;
 
-    public static double kASetpoint = 95.5;
+    public static double kASetpoint = 89.5;
     public static double kBSetpoint = 190;
     public static double kCSetpoint = 20;
 
