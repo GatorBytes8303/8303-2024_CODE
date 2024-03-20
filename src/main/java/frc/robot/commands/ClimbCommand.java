@@ -26,7 +26,7 @@ public class ClimbCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_climb.climb(m_speed);
+    m_climb.runMotor(m_speed,m_speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -36,7 +36,7 @@ public class ClimbCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_climb.climb(0);
+    m_climb.runMotor(0,0);
   }
 
   // Returns true when the command should end.
