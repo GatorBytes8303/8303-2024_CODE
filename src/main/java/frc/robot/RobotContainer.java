@@ -50,8 +50,11 @@ public class RobotContainer {
   private final BrakeCommand m_brake = new BrakeCommand();
   private final ASetPointTrimCommand m_ATrimUp = new ASetPointTrimCommand(0.5);
   private final ASetPointTrimCommand m_ATrimDown = new ASetPointTrimCommand(-0.5);
-  private CANSparkMax leftClimb;
-  private CANSparkMax rightClimb;
+
+  // Climber code
+  CANSparkMax leftClimb = new CANSparkMax(16, MotorType.kBrushed);
+  CANSparkMax rightClimb = new CANSparkMax(17,MotorType.kBrushed);
+  ClimbingSubsystem m_Climb = new ClimbingSubsystem(leftClimb, rightClimb);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
@@ -141,12 +144,7 @@ public class RobotContainer {
           m_score
       );
     
-    //Sotabots Climber code
-    CANSparkMax leftClimb = new CANSparkMax(16, MotorType.kBrushed);
-    CANSparkMax rightClimb = new CANSparkMax(17,MotorType.kBrushed);
-
-    ClimbingSubsystem m_Climb = new ClimbingSubsystem(leftClimb, rightClimb);
-                   
+    //Sotabots Climber code                   
     m_driverController.rightStick()
     .whileTrue(Commands.runOnce(() -> m_Climb.runMotor(1,-1), m_Climb))
     .onFalse(Commands.runOnce(() -> m_Climb.runMotor(0,0), m_Climb));
