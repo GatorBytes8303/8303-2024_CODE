@@ -2,27 +2,27 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+// Packaged as the main execution
 package frc.robot;
 
-//Constants
+// Constants
 import frc.robot.Constants.OperatorConstants;
-
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 
-//Misc
+// Misc
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-//Subsystems
+// Subsystems
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimbingSubsystem;
 import frc.robot.subsystems.ScoringSubsystem;
 
-//Commands
+// Commands
 import frc.robot.commands.TankDriveCommand;
 import frc.robot.commands.BrakeCommand;
 import frc.robot.commands.ArmLiftCommand;

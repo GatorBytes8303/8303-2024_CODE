@@ -2,12 +2,14 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+// Packages commands
 package frc.robot.commands;
 
+// Imports packages
 import frc.robot.Constants.DriveConstants;
-
 import edu.wpi.first.wpilibj2.command.Command;
 
+// Slows down robot driving
 public class BrakeCommand extends Command {
   /** Creates a new BrakeCommand. */
 
@@ -18,6 +20,7 @@ public class BrakeCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    //  Slows speed to this percent of the input value 
     DriveConstants.kDriveSpeedMultiplier = 0.35;
   }
 
@@ -28,6 +31,7 @@ public class BrakeCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    // Releases brake and allows driving at normal speed
     DriveConstants.kDriveSpeedMultiplier = 1;
   }
 
