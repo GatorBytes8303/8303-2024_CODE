@@ -11,6 +11,7 @@ import frc.robot.subsystems.ScoringSubsystem;
 
 // Allows motor to run forward
 public class ScoringCommand extends Command {
+  
 // Calls scoring motor
   private final ScoringSubsystem m_scorer;
 

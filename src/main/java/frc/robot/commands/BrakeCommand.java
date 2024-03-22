@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 // Slows down robot driving
 public class BrakeCommand extends Command {
-  /** Creates a new BrakeCommand. */
 
+  /** Creates a new BrakeCommand. */
   public BrakeCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
   }

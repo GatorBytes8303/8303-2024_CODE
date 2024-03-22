@@ -5,10 +5,10 @@
 // Packages commands
 package frc.robot.commands;
 
-
 //Empty due to skill issue :(
 public final class Autos {
 
+  // Auto commands would go here
   private Autos() {
 
   }
