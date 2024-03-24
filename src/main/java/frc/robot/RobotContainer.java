@@ -37,12 +37,12 @@ import frc.robot.commands.ASetPointTrimCommand;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems are defined here...
+  // The robot's subsystems are defined here
   public final DriveSubsystem m_drive = new DriveSubsystem();
   private final ArmSubsystem m_arm = new ArmSubsystem();
   private final ScoringSubsystem m_scorer = new ScoringSubsystem();
 
-  // The robot's commands are defined here...
+  // The robot's commands are defined here
   private final ScoringCommand m_score = new ScoringCommand(m_scorer);
   private final GrabbingCommand m_grab = new GrabbingCommand(m_scorer);
   private final ArmLiftCommand m_armLift = new ArmLiftCommand(1, m_arm);
@@ -56,12 +56,11 @@ public class RobotContainer {
   CANSparkMax rightClimb = new CANSparkMax(17,MotorType.kBrushed);
   ClimbingSubsystem m_Climb = new ClimbingSubsystem(leftClimb, rightClimb);
 
-  // Replace with CommandPS4Controller or CommandJoystick if needed
+  // Sets controller to have xbox controls
   private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-
-    //-------- D R I V E T R A I N   C O M M A N D S -------
 
     //Drive
     m_drive.setDefaultCommand(
@@ -70,28 +69,52 @@ public class RobotContainer {
         () -> m_driverController.getRightY(),
         m_drive)
     );
+
+    // Configure the trigger bindings
+    configureBindings();
+  }
+
+  /**
+   * Use this method to define your trigger->command mappings. Triggers can be
+   * created via the
+   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
+   * an arbitrary
+   * predicate, or via the named factories in {@link
+   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
+   * {@link
+   * CommandXboxController
+   * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+   * PS4} controllers or
+   * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+   * joysticks}.
+   */
+
+  private void configureBindings() {
+    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
+    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
+    // cancelling on release.
+    // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+
+    //-------- D R I V E T R A I N   C O M M A N D S -------
       
     //Brake
-    m_driverController
-      .leftBumper()
-        .whileTrue(
-          m_brake
-        );
+    m_driverController.leftBumper()
+      .whileTrue(
+        m_brake
+      );
     
     // ------------- A R M   C O M M A N D S ---------
 
     //Arm Control
-    m_driverController
-      .leftTrigger()
-        .whileTrue(
-          m_armLift
-        );
+    m_driverController.leftTrigger()
+      .whileTrue(
+        m_armLift
+      );
   
     //Arm Control
-    m_driverController
-      .rightTrigger()
-        .whileTrue(
-          m_armUnlift
+    m_driverController.rightTrigger()
+      .whileTrue(
+        m_armUnlift
       );
 
     //Arm PID A-Setpoint
@@ -102,46 +125,41 @@ public class RobotContainer {
         );
 
     //Arm PID B-Setpoint
-    m_driverController
-      .b()
-        .onTrue(
-          m_arm.setAngleCommandB()
-        );
+    m_driverController.b()
+      .onTrue(
+        m_arm.setAngleCommandB()
+      );
 
     //A-Setpoint trim UP
-    m_driverController
-      .start()
-        .whileTrue(
-          m_ATrimUp
-        )
-          .onFalse(
-            m_arm.setAngleCommandA()
-          );
+    m_driverController.start()
+      .whileTrue(
+        m_ATrimUp
+      )
+        .onFalse(
+          m_arm.setAngleCommandA()
+        );
 
     //B-Setpoint trim UP
-    m_driverController
-      .back()
-        .whileTrue(
-          m_ATrimDown
-        )
-          .onFalse(
-            m_arm.setAngleCommandA()
-          );
+    m_driverController.back()
+      .whileTrue(
+        m_ATrimDown
+      )
+        .onFalse(
+          m_arm.setAngleCommandA()
+        );
 
     // ---------- S C O R I N G   C O M M A N D S ------
 
     //Intake
-    m_driverController
-      .rightBumper()
-        .whileTrue(
-          m_grab
-        );
+    m_driverController.rightBumper()
+      .whileTrue(
+        m_grab
+      );
   
     //Throw    
-    m_driverController
-      .y()
-        .whileTrue(
-          m_score
+    m_driverController.y()
+      .whileTrue(
+        m_score
       );
     
     //Sotabots Climber code                   
@@ -150,26 +168,8 @@ public class RobotContainer {
     .onFalse(Commands.runOnce(() -> m_Climb.runMotor(0,0), m_Climb));
 
     m_driverController.leftStick()
-    .whileTrue(Commands.runOnce(() -> m_Climb.runMotor(-1,1), m_Climb, m_Climb))
-    .onFalse((Commands.runOnce(() -> m_Climb.runMotor(0,0), m_Climb)));
-    // Configure the trigger bindings
-    configureBindings();
-  }
-
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
-   * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-   * joysticks}.
-   */
-  private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-    // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    .whileTrue(Commands.runOnce(() -> m_Climb.runMotor(-1,1), m_Climb))
+    .onFalse(Commands.runOnce(() -> m_Climb.runMotor(0,0), m_Climb));
   }
 
   /**

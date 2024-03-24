@@ -51,7 +51,7 @@ public class DriveSubsystem extends SubsystemBase {
     left = left * DriveConstants.kDriveSpeedMultiplier;
     right = right * DriveConstants.kDriveSpeedMultiplier;
 
-    // Slows even more
+    // The actual drive command to drive
     m_drive.tankDrive(left, right);
 
   }

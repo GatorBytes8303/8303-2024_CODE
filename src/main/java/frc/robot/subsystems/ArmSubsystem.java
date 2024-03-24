@@ -27,6 +27,7 @@ public class ArmSubsystem extends SubsystemBase {
   /** Arm Motor */
   public ArmSubsystem() {
 
+  // Arm motor settings
   m_armMotor = new CANSparkMax(ArmConstants.kArmMotorID, MotorType.kBrushless);
   m_armMotor.restoreFactoryDefaults();
   m_armMotor.setInverted(ArmConstants.kArmMotorInverted); 
@@ -41,6 +42,7 @@ public class ArmSubsystem extends SubsystemBase {
   m_controller.setD(ArmConstants.kD);
   m_controller.setFeedbackDevice(m_encoder);
 
+  // Save settings
   m_armMotor.burnFlash();
   }
 
@@ -59,6 +61,7 @@ public class ArmSubsystem extends SubsystemBase {
   /* What runs when the subsystem is not being used. aka the default setting. */
   public void armLift(double speed){
 
+    // Run the motors
     m_armMotor.set(speed);
 
   }

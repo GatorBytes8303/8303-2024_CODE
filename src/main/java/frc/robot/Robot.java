@@ -21,17 +21,19 @@ import edu.wpi.first.cscore.UsbCamera;
  * project.
  */
 public class Robot extends TimedRobot {
+
+  // Classes defined here
   private Command m_autonomousCommand;
-
   private RobotContainer m_robotContainer;
-
   private UsbCamera frontCamera;
+  
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
   @Override
   public void robotInit() {
+
     // Starts camera capture and sets config
     frontCamera = CameraServer.startAutomaticCapture(0);
     frontCamera.setResolution(320, 240);
@@ -69,9 +71,12 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {}
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
+
+  //Beginning time on start of code
   double StartTime;
   @Override
   public void autonomousInit() {
+    // If in Auto mode run the auto and get time
     MiscConstants.kRobotIsTeleoperated = false;
     StartTime = Timer.getFPGATimestamp();
      m_autonomousCommand = m_robotContainer.getAutonomousCommand();
@@ -86,6 +91,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     
+    // Run for 2 seconds and drive
    double Time = Timer.getFPGATimestamp();
     if (Time - StartTime < 2){
       m_robotContainer.m_drive.drive(-0.5, -0.5);
