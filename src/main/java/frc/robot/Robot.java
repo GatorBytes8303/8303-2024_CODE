@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.MiscConstants;
+import frc.robot.commands.TestCommandGroup;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 
@@ -74,7 +75,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     MiscConstants.kRobotIsTeleoperated = false;
     StartTime = Timer.getFPGATimestamp();
-     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+     m_autonomousCommand = new TestCommandGroup(m_robotContainer.m_drive);
 
      //schedule the autonomous command (example)
      if (m_autonomousCommand != null) {
@@ -85,13 +86,14 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    
+    /* 
    double Time = Timer.getFPGATimestamp();
     if (Time - StartTime < 2){
       m_robotContainer.m_drive.drive(-0.5, -0.5);
     } else {
       m_robotContainer.m_drive.drive(0,0);
     }
+    */
   }
 
   @Override

@@ -7,8 +7,11 @@ package frc.robot.subsystems;
 
 // Imports packages
 import com.revrobotics.CANSparkMax;
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
@@ -24,6 +27,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   private CANSparkMax m_rightLeadMotor;
   private CANSparkMax m_rightFollowMotor;
+
+  private final AHRS ahrs = new AHRS(edu.wpi.first.wpilibj.SPI.Port.kMXP);
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
@@ -48,8 +53,10 @@ public class DriveSubsystem extends SubsystemBase {
   // This method is used in TankDriveCommand to go a certain speed 
   public void drive(double left, double right) {
     // Changes sensativity with constants
-    left = left * DriveConstants.kDriveSpeedMultiplier;
-    right = right * DriveConstants.kDriveSpeedMultiplier;
+    left *= DriveConstants.kDriveSpeedMultiplier;
+    right *= DriveConstants.kDriveSpeedMultiplier;
+
+    SmartDashboard.putNumber("Angle", ahrs.getAngle());
 
     // Slows even more
     m_drive.tankDrive(left, right);

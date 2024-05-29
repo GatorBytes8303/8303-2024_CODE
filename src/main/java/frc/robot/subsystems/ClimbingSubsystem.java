@@ -27,8 +27,8 @@ private CANSparkMax rightClimb;
 
   // Motors run as this speed parameters
   public void runMotor(double rightSpeed, double leftSpeed) {
-    rightClimb.set(rightSpeed*1);
-    leftClimb.set(leftSpeed*1);
+    rightClimb.set(rightSpeed);
+    leftClimb.set(leftSpeed);
   }
 
   @Override

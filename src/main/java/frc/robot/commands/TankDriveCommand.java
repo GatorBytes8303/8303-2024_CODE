@@ -16,7 +16,7 @@ public class TankDriveCommand extends Command {
   private final DriveSubsystem m_drivetrain;
   private final DoubleSupplier m_left;
   private final DoubleSupplier m_right;
-  
+
   /** Creates a new TankDriveCommand. */
   public TankDriveCommand(DoubleSupplier left, DoubleSupplier right, DriveSubsystem drivetrain) {
     // Drives drivetrain

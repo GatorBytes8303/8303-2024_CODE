@@ -7,39 +7,42 @@ package frc.robot.commands;
 
 // Imports packages
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ScoringSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
 
-// Allows motor to run forward
-public class ScoringCommand extends Command {
-  
-// Calls scoring motor
-  private final ScoringSubsystem m_scorer;
+public class DriveCommand extends Command {
+  // Inits variables
+  private final DriveSubsystem m_drivetrain;
+  private final Double m_left;
+  private final Double m_right;
 
-  /** Creates a new ScoringCommand. */
-  public ScoringCommand(ScoringSubsystem scorer) {
-    // Scorer as variable
-    m_scorer = scorer;
+  /** Creates a new TankDriveCommand. */
+  public DriveCommand(Double left, Double right, DriveSubsystem drivetrain) {
+    // Drives drivetrain
+    m_drivetrain = drivetrain;
+    m_left = left;
+    m_right = right;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_scorer);
+    addRequirements(m_drivetrain);
+
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // Scoring motor is run at this speed
-    m_scorer.setScorer(1);
+      m_drivetrain.drive(m_left, m_right);
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_scorer.setScorer(0);
+    // Stops drive motors
+    m_drivetrain.drive(0, 0);
   }
 
   // Returns true when the command should end.

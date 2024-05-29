@@ -32,7 +32,7 @@ public class GrabbingCommand extends Command {
   @Override
   public void execute() {
     // Runs motor in reverse
-    m_scorer.setScorer(-0.2);
+    m_scorer.setScorer(-1);
   }
 
   // Called once the command ends or is interrupted.
