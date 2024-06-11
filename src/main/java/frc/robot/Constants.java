@@ -38,6 +38,7 @@ public final class Constants {
 
     // Speed sensativity
     public static double kDriveSpeedMultiplier = 1;
+    public static double kAutoDriveSpeed = 1;
   }
   
   // Arm motor constants
@@ -45,7 +46,7 @@ public final class Constants {
     // Motor controller settings/id
     public static final int kArmMotorID = 14;
     public static final boolean kArmMotorInverted = false;
-    public static final double kArmSpeed = 0.08;
+    public static final double kArmSpeed = 0.15;
 
     // PID to allow percise semi-automatic controll
     public static final double kP = 0.025;
@@ -57,6 +58,9 @@ public final class Constants {
     public static double kBSetpoint = 190;
     public static double kCSetpoint = 20;
 
+    // Trim position factor
+    public static double kTrim = 20;
+
   }
   
   // Scoring motor constants
@@ -66,6 +70,17 @@ public final class Constants {
     public static final boolean kScoringMotorInverted = true;
   }
   
+  public static class ClimberConstants {
+    // Motor controller settings/id
+    public static final int kLeftClimberMotorID = 16;
+    public static final boolean kLeftClimberMotorInverted = true;
+  
+    public static final int kRightClimberMotorID = 17;
+    public static final boolean kRightClimberMotorInverted = true;
+
+    public static final double kClimberSpeed = 1;
+  }
+
   // Constants not related to other major components
   public static class MiscConstants {
     public static boolean kRobotIsTeleoperated = true;

@@ -5,19 +5,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.DriveSubsystem;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-
-public class TestCommandGroup extends SequentialCommandGroup {
-  /** Creates a new TestCommandGroup. */
-  public TestCommandGroup(DriveSubsystem drive) {
+public class AutoCommandGroup extends SequentialCommandGroup {
+  /** Creates a new AutoCommandGroup. */
+  public AutoCommandGroup(DriveSubsystem drive) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        new DriveCommand(-0.2, -0.2, drive),
+        new DriveCommand(DriveConstants.kAutoDriveSpeed * -1, DriveConstants.kAutoDriveSpeed * -1, drive),
         new DriveCommand(0.0, 0.0, drive)
     );
   }

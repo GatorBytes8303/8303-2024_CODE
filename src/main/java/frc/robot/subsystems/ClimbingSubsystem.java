@@ -5,30 +5,30 @@
 // Packages subsytems
 package frc.robot.subsystems;
 
+//import com.revrobotics.CANSparkLowLevel.MotorType;
 // Imports packages
-import com.revrobotics.CANSparkMax;
+//import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+//import frc.robot.Constants.ClimberConstants;
 
 // Code for climbers to activate
 public class ClimbingSubsystem extends SubsystemBase {
   
 // Declares the varibles as motor controllers
-private CANSparkMax leftClimb;
-private CANSparkMax rightClimb;
+    //CANSparkMax leftClimb = new CANSparkMax(ClimberConstants.kLeftClimberMotorID, MotorType.kBrushed);
+    //CANSparkMax rightClimb = new CANSparkMax(ClimberConstants.kRightClimberMotorID, MotorType.kBrushed);
 
 
   /** Creates a new ClimbingSubsystem. */
-  public ClimbingSubsystem(CANSparkMax leftClimb, CANSparkMax rightClimb) {
+  public ClimbingSubsystem() {
     // Sets climb as parameters 
-    this.leftClimb = leftClimb;
-    this.rightClimb = rightClimb;
-
+   
   }
 
   // Motors run as this speed parameters
   public void runMotor(double rightSpeed, double leftSpeed) {
-    rightClimb.set(rightSpeed);
-    leftClimb.set(leftSpeed);
+    //rightClimb.set(rightSpeed);
+    //leftClimb.set(leftSpeed);
   }
 
   @Override

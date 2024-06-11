@@ -5,30 +5,32 @@
 // Packaged as the main execution
 package frc.robot;
 
+import frc.robot.Constants.ArmConstants;
+//import frc.robot.Constants.ClimberConstants;
 // Constants
 import frc.robot.Constants.OperatorConstants;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
 
 // Misc
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 // Subsystems
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.ClimbingSubsystem;
+//import frc.robot.subsystems.ClimbingSubsystem;
 import frc.robot.subsystems.ScoringSubsystem;
 
 // Commands
 import frc.robot.commands.TankDriveCommand;
 import frc.robot.commands.BrakeCommand;
+//import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ArmLiftCommand;
 import frc.robot.commands.ScoringCommand;
 import frc.robot.commands.GrabbingCommand;
 import frc.robot.commands.ASetPointTrimCommand;
+import frc.robot.commands.AngleACommand;
+import frc.robot.commands.AngleBCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -39,25 +41,24 @@ import frc.robot.commands.ASetPointTrimCommand;
 public class RobotContainer {
   // The robot's subsystems are defined here...
   public final DriveSubsystem m_drive = new DriveSubsystem();
-  private final ArmSubsystem m_arm = new ArmSubsystem();
+  public final ArmSubsystem m_arm = new ArmSubsystem();
   private final ScoringSubsystem m_scorer = new ScoringSubsystem();
+  //private final ClimbingSubsystem m_climber = new ClimbingSubsystem();
 
   // The robot's commands are defined here...
   private final ScoringCommand m_score = new ScoringCommand(m_scorer);
   private final GrabbingCommand m_grab = new GrabbingCommand(m_scorer);
   private final ArmLiftCommand m_armLift = new ArmLiftCommand(1, m_arm);
-  private final ArmLiftCommand m_armUnlift = new ArmLiftCommand(-1, m_arm);
+  private final ArmLiftCommand m_armUnLift = new ArmLiftCommand(-1, m_arm);
   private final BrakeCommand m_brake = new BrakeCommand();
-  private final ASetPointTrimCommand m_ATrimUp = new ASetPointTrimCommand(0.5);
-  private final ASetPointTrimCommand m_ATrimDown = new ASetPointTrimCommand(-0.5);
-
-  // Climber code
-  CANSparkMax leftClimb = new CANSparkMax(16, MotorType.kBrushed);
-  CANSparkMax rightClimb = new CANSparkMax(17,MotorType.kBrushed);
-  ClimbingSubsystem m_Climb = new ClimbingSubsystem(leftClimb, rightClimb);
+  //private final ClimbCommand m_climbCommand = new ClimbCommand(ClimberConstants.kClimberSpeed, m_climber);
+  //private final ClimbCommand m_unClimbCommand = new ClimbCommand(ClimberConstants.kClimberSpeed, m_climber);
+  private final ASetPointTrimCommand m_ATrimUp = new ASetPointTrimCommand(ArmConstants.kTrim);
+  private final ASetPointTrimCommand m_ATrimDown = new ASetPointTrimCommand(ArmConstants.kTrim * -1);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
@@ -91,7 +92,7 @@ public class RobotContainer {
     m_driverController
       .rightTrigger()
         .whileTrue(
-          m_armUnlift
+          m_armUnLift
       );
 
     //Arm PID A-Setpoint
@@ -115,7 +116,7 @@ public class RobotContainer {
           m_ATrimUp
         )
           .onFalse(
-            m_arm.setAngleCommandA()
+              m_arm.setAngleCommandA()
           );
 
     //B-Setpoint trim UP
@@ -127,6 +128,25 @@ public class RobotContainer {
           .onFalse(
             m_arm.setAngleCommandA()
           );
+
+    // Arm lift on Dpad up
+    //m_driverController
+    //  .povUp()
+    //    .whileTrue(m_armLift);
+
+    m_driverController
+      .povUp()
+        .whileTrue(new AngleACommand(m_arm));
+
+
+    // Arm lift on Dpad down    
+    //m_driverController
+    //  .povDown()
+    //    .whileTrue(m_armUnLift);
+
+    m_driverController
+      .povDown()
+        .whileTrue(new AngleBCommand(m_arm));
 
     // ---------- S C O R I N G   C O M M A N D S ------
 
@@ -144,14 +164,11 @@ public class RobotContainer {
           m_score
       );
     
-    //Sotabots Climber code                   
-    m_driverController.rightStick()
-    .whileTrue(Commands.runOnce(() -> m_Climb.runMotor(1,-1), m_Climb))
-    .onFalse(Commands.runOnce(() -> m_Climb.runMotor(0,0), m_Climb));
+    // Climber code                   
+    //m_driverController.rightStick().whileTrue(m_climbCommand);
 
-    m_driverController.leftStick()
-    .whileTrue(Commands.runOnce(() -> m_Climb.runMotor(-1,1), m_Climb, m_Climb))
-    .onFalse((Commands.runOnce(() -> m_Climb.runMotor(0,0), m_Climb)));
+    //m_driverController.leftStick().whileTrue(m_unClimbCommand); 
+
     // Configure the trigger bindings
     configureBindings();
   }

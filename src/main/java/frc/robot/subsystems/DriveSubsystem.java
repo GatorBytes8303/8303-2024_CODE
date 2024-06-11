@@ -28,7 +28,7 @@ public class DriveSubsystem extends SubsystemBase {
   private CANSparkMax m_rightLeadMotor;
   private CANSparkMax m_rightFollowMotor;
 
-  private final AHRS ahrs = new AHRS(edu.wpi.first.wpilibj.SPI.Port.kMXP);
+  private final AHRS navX = new AHRS(edu.wpi.first.wpilibj.SPI.Port.kMXP);
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
@@ -56,7 +56,7 @@ public class DriveSubsystem extends SubsystemBase {
     left *= DriveConstants.kDriveSpeedMultiplier;
     right *= DriveConstants.kDriveSpeedMultiplier;
 
-    SmartDashboard.putNumber("Angle", ahrs.getAngle());
+    SmartDashboard.putNumber("Angle", navX.getAngle());
 
     // Slows even more
     m_drive.tankDrive(left, right);

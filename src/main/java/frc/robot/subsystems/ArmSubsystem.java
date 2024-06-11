@@ -58,13 +58,12 @@ public class ArmSubsystem extends SubsystemBase {
 
   /* What runs when the subsystem is not being used. aka the default setting. */
   public void armLift(double speed){
-
     m_armMotor.set(speed);
 
   }
 
   //PID control
-  private void setAngleA() {
+  public void setAngleA() {
     m_controller.setReference(ArmConstants.kASetpoint, ControlType.kPosition);
   }
 
